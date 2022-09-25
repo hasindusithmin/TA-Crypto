@@ -1,8 +1,8 @@
+
 import talib
+import inspect
 from fastapi import FastAPI,HTTPException
 from fastapi.responses import HTMLResponse
-from inspect import getdoc
-
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 app = FastAPI()
@@ -19,7 +19,13 @@ def return_function_groups():
 @app.get('/method/{method}')
 def return_help(method:str):
     try:
-        doc =  eval(f'getdoc(talib.{method.upper()})')
+        doc =  eval(f'talib.{method.upper()}.__doc__')
         return HTMLResponse(doc)
     except:
-        raise HTTPException(status_code=404,detail=f'Not Found Method:{method}')
+        raise HTTPException(status_code=404)
+
+
+    
+    
+    
+    
